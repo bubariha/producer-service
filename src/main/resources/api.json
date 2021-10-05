@@ -1,0 +1,159 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a sample server Producer server.",
+    "version": "1.0.0",
+    "title": "Swagger Producer Server"
+  },
+  "host": "producer.swagger.io",
+  "basePath": "/v2",
+  "tags": [
+    {
+      "name": "producer",
+      "description": "producer service",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/publish": {
+      "post": {
+        "tags": [
+          "producer"
+        ],
+        "summary": "Post message to Kafka",
+        "description": "Posting message to Kafka",
+        "operationId": "publish",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "request",
+            "name": "request",
+            "description": "Json message to publish",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Request"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "producer_auth": [
+              "write:producer",
+              "read:producer"
+            ]
+          }
+        ]
+      }
+    }
+  }
+},
+"securityDefinitions": {
+"producer_auth": {
+"type": "oauth2",
+"authorizationUrl": "http://producer.swagger.io/oauth/dialog",
+"flow": "implicit",
+"scopes": {
+"write:producer": "Modify producer account",
+"read:producer": "read your pets"
+}
+},
+"api_key": {
+"type": "apiKey",
+"name": "Authorization",
+"in": "header"
+}
+},
+"definitions": {
+"Request": {
+"type": "object",
+"properties": {
+"customerNumber": {
+"type": "string"
+},
+"firstName": {
+"type": "string"
+},
+"lastName": {
+"type": "string"
+},
+"birthdate": {
+"type": "string",
+"format": "date-time"
+},
+"country": {
+"type": "string"
+},
+"countryCode": {
+"type": "string"
+},
+"mobileNumber": {
+"type": "string"
+},
+"customerStatus": {
+"type": "string",
+"enum": ["R", "S", "O", "C"]
+}
+},
+"xml": {
+"name": "Address"
+}
+},
+"Address": {
+"type": "object",
+"properties": {
+"addressline1": {
+"type": "string"
+},
+"addressLine2": {
+"type": "string"
+},
+"street": {
+"type": "string"
+},
+"postalCode": {
+"type": "string"
+}
+},
+"xml": {
+"name": "Address"
+}
+},
+"Response": {
+"type": "object",
+"properties": {
+"status": {
+"type": "boolean"
+},
+"message": {
+"type": "string"
+},
+"errorType": {
+"type": "string"
+}
+},
+"xml": {
+"name": "Response"
+}
+}
+}
+}
+}

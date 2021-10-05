@@ -66,6 +66,11 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.4.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>2.7.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -85,12 +90,12 @@
 						</goals>
 						<configuration>
 							<inputSpec>src/main/resources/api.json</inputSpec>
-							<language>java</language>
-							<library>okhttp-gson</library>
-							<apiPackage>com.microservice.producerservie.api</apiPackage>
-							<modelPackage>com.microservice.producerservie.model</modelPackage>
+							<language>spring</language>
 							<configOptions>
-								<sourceFolder>src/main/java</sourceFolder>
+								<sourceFolder>swagger</sourceFolder>
+								<java8>true</java8>
+								<interfaceOnly>true</interfaceOnly>
+								<sourceFolder>swagger</sourceFolder>
 							</configOptions>
 						</configuration>
 					</execution>
