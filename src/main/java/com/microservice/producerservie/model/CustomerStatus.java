@@ -1,4 +1,4 @@
-package com.microservice.producerservie;
+package com.microservice.producerservie.model;
 
 public enum CustomerStatus {
 
