@@ -14,7 +14,7 @@ import java.util.Date;
 public class PublishRequest implements Serializable {
 
     @Pattern(regexp = "^[a-zA-Z0-9]{1,10}", message = "Maximum length is 10")
-    @NotEmpty(message = "Customer Number is mandatory")
+    @NotBlank(message = "Customer Number is mandatory")
     private String customerNumber;
 
     //    @Min(value = 10, message = "length should be atleast 10")

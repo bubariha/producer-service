@@ -27,8 +27,6 @@ import javax.validation.Valid;
 public class PublishController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PublishController.class);
 
-    private String status = "";
-
     @Autowired
     private KafkaTemplate<String, PublishRequest> kafkaTemplate;
     private static String kafkaTopic = "test-topic";
@@ -43,7 +41,7 @@ public class PublishController {
                     }))
     @PostMapping(value = "/publish", produces = "application/json", consumes = "application/json")
     public ResponseEntity<PublishResponse> publish(@Valid @RequestBody PublishRequest message) {
-        System.out.println("Harry entered to publish>>>>>>>>>>>>>>.. " + message);
+        LOGGER.info( "Harry publish request: {} ", message);
         ListenableFuture<SendResult<String, PublishRequest>> future =
                 this.kafkaTemplate.send(kafkaTopic, message);
 
@@ -51,7 +49,6 @@ public class PublishController {
 
             @Override
             public void onSuccess(SendResult<String, PublishRequest> result) {
-                status = "Message sent successfully";
                 LOGGER.info("successfully sent message = {}, with offset = {}", message,
                         result.getRecordMetadata().offset());
             }
@@ -59,7 +56,6 @@ public class PublishController {
             @Override
             public void onFailure(Throwable ex) {
                 LOGGER.info("Failed to send message = {}, error = {}", message, ex.getMessage());
-                status = "Message sending failed";
             }
         });
         return new ResponseEntity<>(new PublishResponse("success", "Published successfully"), HttpStatus.OK);

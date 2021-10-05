@@ -11,19 +11,24 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException argumentNotValidException, HttpHeaders httpHeaders,
                                                                   HttpStatus httpStatus, WebRequest webRequest) {
-        argumentNotValidException.getBindingResult()
+        List<String> errors = argumentNotValidException.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
+        if (!errors.isEmpty()) {
+            logger.info("Harry errors = " + errors);
+        }
         PublishResponse publishResponse = new PublishResponse("failed", "Invalid fields");
         publishResponse.setErrorType(argumentNotValidException.getClass().getSimpleName());
         return new ResponseEntity<>(publishResponse, HttpStatus.BAD_REQUEST);
