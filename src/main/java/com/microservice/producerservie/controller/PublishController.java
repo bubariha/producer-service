@@ -36,7 +36,7 @@ public class PublishController {
             @ApiResponse(code = 201, message = "Task successfully created",
                     responseHeaders = {
                             @ResponseHeader(name = "Authorization", description = "Authorization token"),
-                            @ResponseHeader(name = "Transaction-Id", description = "Trasaction Id"),
+                            @ResponseHeader(name = "Transaction-Id", description = "Transaction Id"),
                             @ResponseHeader(name = "Activity-Id", description = "Activity Id")
                     }))
     @PostMapping(value = "/publish", produces = "application/json", consumes = "application/json")
@@ -46,13 +46,11 @@ public class PublishController {
                 this.kafkaTemplate.send(kafkaTopic, message);
 
         future.addCallback(new ListenableFutureCallback<SendResult<String, PublishRequest>>() {
-
             @Override
             public void onSuccess(SendResult<String, PublishRequest> result) {
                 LOGGER.info("successfully sent message = {}, with offset = {}", message,
                         result.getRecordMetadata().offset());
             }
-
             @Override
             public void onFailure(Throwable ex) {
                 LOGGER.info("Failed to send message = {}, error = {}", message, ex.getMessage());

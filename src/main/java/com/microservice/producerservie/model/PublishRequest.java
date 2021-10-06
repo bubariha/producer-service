@@ -1,7 +1,6 @@
 package com.microservice.producerservie.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -40,7 +39,7 @@ public class PublishRequest implements Serializable {
     @NotBlank(message = "Country Code is mandatory")
     private String countryCode;
 
-    @Pattern(regexp = "^[a-zA-Z0-9]{10}", message = "Maximum length is 10")
+    @Pattern(regexp = "^[a-zA-Z0-9]{10}", message = "Should contain exactly 10 digits")
     @NotBlank(message = "Mobile Number is mandatory")
     private String mobileNumber;
 
